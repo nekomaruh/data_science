@@ -1,6 +1,5 @@
 import matplotlib.pyplot as plt
 from mpl_toolkits import mplot3d
-import statistics
 import pandas as pd
 import numpy as np
 import math
@@ -9,9 +8,9 @@ import re
 df = pd.read_excel("data.xlsx", index_col=0, header=0)
 cant_datos = df['RUT.'].count()
 
-print('\nEjercicio aguinaldo:')
+print('\nEjercicio colacion:')
 
-# Aumento de aguinaldos
+# Aumento de colacion
 
 df.sort_values(by=[
     '6. Aguinaldo Navidad'], 
@@ -77,15 +76,15 @@ def transformarRegiones(input):
 
 
 # Leemos la columna 2.1 (P) de movilización
-prioridades = df['6. Aguinaldo Navidad']
-aguinaldos = df['6.1 El aguinaldo de navidad, en que monto debiera quedar']
+prioridades = df['3. Colación']
+colaciones = df['3.1 Aumento Colación']
 regiones = df['REGIÓN']
 contratos = df['14. Duración del Contrato Colectivo']
 sueldos_base = df['1.2 Tu  sueldo base actualmente es...']
 
-solo_aguinaldos_filter = []
+solo_colaciones_filter = []
 prioridades_filter = []
-aguinaldos_filter = []
+colaciones_filter = []
 sueldos_base_filter = []
 regiones_filter = []
 contratos_filter = []
@@ -95,26 +94,26 @@ contratos_filter = []
 
 for i in range(cant_datos):
     # Convertimos los datos a string
-    aguinaldo = str(aguinaldos[i])
+    colacion = str(colaciones[i])
     sueldo = str(sueldos_base[i])
 
     # Eliminamos los carácteres ? . - (espacio)
-    aguinaldo = eliminarCaracteres(aguinaldo)
+    colacion = eliminarCaracteres(colacion)
     sueldo = eliminarCaracteres(sueldo)
 
     # Solo calculamos aguinaldos
-    if(esNumerico(aguinaldo)):
-        solo_aguinaldo = int(aguinaldo)
-        if(solo_aguinaldo > 100 and solo_aguinaldo < 200000):
-            solo_aguinaldos_filter.append(solo_aguinaldo)
+    if(esNumerico(colacion)):
+        solo_colacion = int(colacion)
+        if(solo_colacion  > 100 and solo_colacion  < 10000):
+            solo_colaciones_filter.append(solo_colacion )
 
     # Chequeamos si el valor es numerico (no porcentaje) y con aguinaldo restringido
-    if(esNumerico(aguinaldo) and esNumerico(sueldo)):
+    if(esNumerico(colacion) and esNumerico(sueldo)):
         sueldo = int(sueldo)
-        aguinaldo = int(aguinaldo)
-        if(sueldo<7000000 and aguinaldo > 100 and aguinaldo<200000):
+        colacion = int(colacion)
+        if(sueldo<7000000 and colacion > 100 and colacion<10000):
             prioridades_filter.append(prioridades[i])
-            aguinaldos_filter.append(aguinaldo)
+            colaciones_filter.append(colacion)
             sueldos_base_filter.append(sueldo)
             regiones_filter.append(transformarRegiones(regiones[i]))
             contratos_filter.append(contratos[i])
@@ -122,15 +121,15 @@ for i in range(cant_datos):
         # Chequeamos si el aumento es menor al sueldo base
         
 
-promedio_solo_aguinaldo = sum(solo_aguinaldos_filter) / len(solo_aguinaldos_filter)
-desviacion_estandar = np.std(solo_aguinaldos_filter)
+promedio_solo_aguinaldo = sum(solo_colaciones_filter) / len(solo_colaciones_filter)
+desviacion_estandar = np.std(solo_colaciones_filter)
 print(promedio_solo_aguinaldo)
 print(desviacion_estandar)
 
 
 
-for i in range(len(solo_aguinaldos_filter)):
-    print(solo_aguinaldos_filter[i])
+for i in range(len(solo_colaciones_filter)):
+    print(solo_colaciones_filter[i])
     #print(sueldos_base_filter[i])
     #print(prioridades_filter[i])
     #print(aguinaldos_filter[i])
@@ -161,18 +160,18 @@ ax = plt.axes(projection='3d')
 # Data for a three-dimensional line
 zline = np.linspace(0, 5, 1)
 xline = np.linspace(0, 10000, 1)
-yline = np.linspace(70000, 1, 1)
+yline = np.linspace(0, 10000, 1)
 ax.plot3D(xline, yline, zline, 'gray')
 
 # Data for three-dimensional scattered points
 # Prioridades, sueldo base, aumento
 zdata = prioridades_filter
 xdata = sueldos_base_filter
-ydata = aguinaldos_filter
+ydata = colaciones_filter
 
 ax.scatter3D(xdata, ydata, zdata, c=zdata, cmap='Greens')
 ax.set_xlabel('Sueldos base', fontsize=10)
-ax.set_ylabel('Aguinaldos', fontsize=10)
+ax.set_ylabel('Colaciones', fontsize=10)
 ax.set_zlabel('Prioridades', fontsize=10)
 plt.title('Aguinaldos de navidad por sueldos base')
 plt.show()
