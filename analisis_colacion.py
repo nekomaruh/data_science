@@ -8,12 +8,12 @@ import re
 df = pd.read_excel("data.xlsx", index_col=0, header=0)
 cant_datos = df['RUT.'].count()
 
-print('\nEjercicio colacion:')
+print('\nEjercicio colacion:\n')
 
 # Aumento de colacion
 
 df.sort_values(by=[
-    '6. Aguinaldo Navidad'], 
+    '3. Colación'], 
 inplace=True)
 
 
@@ -123,13 +123,14 @@ for i in range(cant_datos):
 
 promedio_solo_aguinaldo = sum(solo_colaciones_filter) / len(solo_colaciones_filter)
 desviacion_estandar = np.std(solo_colaciones_filter)
-print(promedio_solo_aguinaldo)
-print(desviacion_estandar)
+print('Promedio:',promedio_solo_aguinaldo)
+print('Desviación estándar:',desviacion_estandar)
+print('Cantidad de datos:',len(solo_colaciones_filter),'/',cant_datos)
 
 
 
-for i in range(len(solo_colaciones_filter)):
-    print(solo_colaciones_filter[i])
+#for i in range(len(solo_colaciones_filter)):
+    #print(solo_colaciones_filter[i])
     #print(sueldos_base_filter[i])
     #print(prioridades_filter[i])
     #print(aguinaldos_filter[i])
@@ -173,7 +174,7 @@ ax.scatter3D(xdata, ydata, zdata, c=zdata, cmap='Greens')
 ax.set_xlabel('Sueldos base', fontsize=10)
 ax.set_ylabel('Colaciones', fontsize=10)
 ax.set_zlabel('Prioridades', fontsize=10)
-plt.title('Aguinaldos de navidad por sueldos base')
+plt.title('Analisis colaciones por sueldos base')
 plt.show()
 
 

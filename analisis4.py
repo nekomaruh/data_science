@@ -27,6 +27,7 @@ print('Anual', cant[2])
 
 plt.pie(cant, labels=nombres, autopct="%0.1f %%")
 plt.axis("equal")
+plt.title('Preferencia del pago de gratificación')
 plt.show()
 
 

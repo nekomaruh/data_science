@@ -73,12 +73,13 @@ for i in range(cant_datos):
             sueldos_base_filter.append(sueldo)
             prioridades_filter.append(prioridades[i])
 
-
+"""
 for i in range(len(aumento_sueldo_filter)):
     print(aumento_sueldo_filter[i])
     print(aumentos_filter[i])
     print(sueldos_base_filter[i])
     print(prioridades_filter[i])
+"""
 
 """
 # Obtenemos el promedio por prioridad

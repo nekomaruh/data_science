@@ -27,23 +27,27 @@ def eliminarCaracteres(input):
     #print('R:', input)
     return input
 
-def printRoman(number):
-    num = [1, 4, 5, 9, 10, 40, 50, 90, 
-           100, 400, 500, 900, 1000]
-    sym = ["I", "IV", "V", "IX", "X", "XL", 
-           "L", "XC", "C", "CD", "D", "CM", "M"]
-    i = 12
-    result = ''
-    while number:
-        div = number // num[i]
-        number %= num[i]
- 
-        while div:
-            print(sym[i], end = "")
-            result += sym[i]
-            div -= 1
-        i -= 1
-    return result
+def int_to_Roman(num):
+        val = [
+            1000, 900, 500, 400,
+            100, 90, 50, 40,
+            10, 9, 5, 4,
+            1
+            ]
+        syb = [
+            "M", "CM", "D", "CD",
+            "C", "XC", "L", "XL",
+            "X", "IX", "V", "IV",
+            "I"
+            ]
+        roman_num = ''
+        i = 0
+        while  num > 0:
+            for _ in range(num // val[i]):
+                roman_num += syb[i]
+                num -= val[i]
+            i += 1
+        return roman_num
 
 # Expresión regular para identificar dígitos incluyendo decimales
 def esNumerico(input):
@@ -56,25 +60,23 @@ def esNumerico(input):
 
 def transformarRegiones(input):
     input = str(input).upper()
-    
-    """
-    if ('METRO' and 'SANTIAGO' and 'CASA MATRIZ' and 'METROPOLITANA') in input:
-        return 'RM'
-
-    """
+    if('R.M' in input):
+        input = 'RM'
+    if('METRO' in input):
+        input = 'RM'
+    if('POLITANA' in input):
+        input = 'RM'
+    if('SANTIAGO' in input):
+        input = 'RM'
+    if('CASA MATRIZ' in input):
+        input = 'RM'
+    if(esNumerico(input)):
+        input = int_to_Roman(int(input))
+    input = input.replace('REGION', '')
+    input = input.replace('|', 'I')
+    input = input.replace('l', 'I')
+    input = input.replace(' ', '')
     return input
-    """
-    if esNumerico(input):
-        return str(printRoman(int(input)))
-    elif ('RM' or 'METRO') in input:
-        return 'RM'
-    else:
-        return input
-    """
-
-
-
-
 
 # Leemos la columna 2.1 (P) de movilización
 prioridades = df['6. Aguinaldo Navidad']
@@ -89,9 +91,6 @@ aguinaldos_filter = []
 sueldos_base_filter = []
 regiones_filter = []
 contratos_filter = []
-
-
-
 
 for i in range(cant_datos):
     # Convertimos los datos a string
@@ -124,13 +123,13 @@ for i in range(cant_datos):
 
 promedio_solo_aguinaldo = sum(solo_aguinaldos_filter) / len(solo_aguinaldos_filter)
 desviacion_estandar = np.std(solo_aguinaldos_filter)
-print(promedio_solo_aguinaldo)
-print(desviacion_estandar)
+print('Promedio solo aguinaldo',promedio_solo_aguinaldo)
+print('Desviación estándar',desviacion_estandar)
 
 
 
-for i in range(len(solo_aguinaldos_filter)):
-    print(solo_aguinaldos_filter[i])
+#for i in range(len(regiones_filter)):
+    #print(solo_aguinaldos_filter[i])
     #print(sueldos_base_filter[i])
     #print(prioridades_filter[i])
     #print(aguinaldos_filter[i])
@@ -176,6 +175,83 @@ ax.set_ylabel('Aguinaldos', fontsize=10)
 ax.set_zlabel('Prioridades', fontsize=10)
 plt.title('Aguinaldos de navidad por sueldos base')
 plt.show()
+
+
+# Segundo filtro por promedios de regiones
+num_region = []
+cant_aguinaldo = []
+sum_aguinaldo = []
+prom_region = []
+
+for x in range(len(regiones_filter)):
+    encontrado = False
+    pos_encontrado = -1
+    for y in range(len(num_region)):
+        if(regiones_filter[x] == num_region[y]):
+            encontrado = True
+            pos_encontrado = y
+            break
+    if(encontrado):
+        cant_aguinaldo[pos_encontrado] += 1
+        sum_aguinaldo[pos_encontrado] += aguinaldos_filter[x]
+    else:
+        num_region.append(regiones_filter[x])
+        cant_aguinaldo.append(1)
+        sum_aguinaldo.append(aguinaldos_filter[x])
+
+# Sacamos el promedio por region
+for i in range(len(num_region)):
+    prom_region.append(sum_aguinaldo[i]/cant_aguinaldo[i])
+
+
+
+plt.bar(range(len(prom_region)), prom_region, edgecolor='black')
+
+plt.xticks(range(len(num_region)), num_region)
+plt.title("Aguinaldos por regiones")
+#plt.ylim(min(regiones_filter)-1, max(regiones_filter)+1)
+plt.show()
+
+
+# Segundo filtro por promedios de duracion de contrato
+tipo_contrato = []
+cant_contrato = []
+sum_contrato = []
+prom_contrato = []
+
+for x in range(len(contratos_filter)):
+    encontrado = False
+    pos_encontrado = -1
+    for y in range(len(tipo_contrato)):
+        if(contratos_filter[x] == tipo_contrato[y]):
+            encontrado = True
+            pos_encontrado = y
+            break
+    if(encontrado):
+        cant_contrato[pos_encontrado] += 1
+        sum_contrato[pos_encontrado] += aguinaldos_filter[x]
+    else:
+        tipo_contrato.append(contratos_filter[x])
+        cant_contrato.append(1)
+        sum_contrato.append(aguinaldos_filter[x])
+
+# Sacamos el promedio por region
+for i in range(len(tipo_contrato)):
+    prom_contrato.append(sum_contrato[i]/cant_contrato[i])
+
+
+
+
+
+plt.bar(range(len(prom_contrato)), prom_contrato, edgecolor='black')
+
+plt.xticks(range(len(tipo_contrato)), tipo_contrato)
+plt.title("Aguinaldos por contratos")
+#plt.ylim(min(regiones_filter)-1, max(regiones_filter)+1)
+plt.show()
+
+
+
 
 
 
