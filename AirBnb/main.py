@@ -27,10 +27,11 @@ print('Cantidad de datos:',len(df))
 # Cantidad de review por año (no tiene sentido)
 # Cantidad de dias disponibles en el año (los 3 mejores y peores)
 """
-Es un recuento de listados que tiene un host específico
+calculated_host_listings_count: Es un recuento de listados que tiene un host específico
 Básicamente, nos dice la cantidad de veces que ese host 
 en particular ha usado airbnb en ese conjunto de datos. 
 Entonces, si calcula_host_listings_count es 6, entonces
 puede ver que host_name tiene exactamente 6 filas en ese
 conjunto de datos.
 """
+
