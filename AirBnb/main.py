@@ -11,13 +11,26 @@ cant_datos = df['name'].count()
 # Eliminar las columnas que no se van a utilizar
 df = df.drop(columns=['neighbourhood_group'])
 
-print('Cantidad de datos:',len(df))
+print('\nCantidad de datos:',len(df),'\n')
 
+print('Top 5 hosts más solicitados:')
+print(df['host_name'].value_counts()[0:5],'\n')
+
+print('Top 5 locales más solicitados')
+print(df['name'].value_counts()[0:5],'\n')
+
+print('Top 5 barrios más solicitados')
+print(df['neighbourhood'].value_counts()[0:5],'\n')
+
+print('Top 5 barrios más solicitados')
+print(df['neighbourhood'].value_counts(),'\n')
+
+print('Tipos de habitación solicitadas')
+print(df['room_type'].value_counts(),'\n')
 
 # El host mas solicitado
 # El local mas pedido
-# El host mas solicitado
-# Lugar en donde mas solicitan
+# Barrio en donde mas solicitan
 # Que tipos de habitación son los que mas solicitan
 # Las 3 más baratas
 # Las 3 más caras
@@ -26,6 +39,9 @@ print('Cantidad de datos:',len(df))
 # Las mas demandadas (reviews)
 # Cantidad de review por año (no tiene sentido)
 # Cantidad de dias disponibles en el año (los 3 mejores y peores)
+# Reviews por año
+# Cuales son las habitaciones que se reservan por un tiempo mas largo
+
 """
 calculated_host_listings_count: Es un recuento de listados que tiene un host específico
 Básicamente, nos dice la cantidad de veces que ese host 
