@@ -28,6 +28,24 @@ print(df['neighbourhood'].value_counts(),'\n')
 print('Tipos de habitación solicitadas')
 print(df['room_type'].value_counts(),'\n')
 
+print('Las habitaciones mas baratas')
+df1 = df.nsmallest(5, columns=['price'])
+hc_nom = df1['name'].tolist()
+hc_pre = df1['price'].tolist()
+
+for i in range(len(hc_nom)):
+    print('$', hc_pre[i], hc_nom[i])
+
+print('\nLas habitaciones mas caras')
+df1 = df.nlargest(5, columns=['price'])
+hc_nom = df1['name'].tolist()
+hc_pre = df1['price'].tolist()
+for i in range(len(hc_nom)):
+    print('$', hc_pre[i], hc_nom[i])
+print('\n')
+
+
+
 # El host mas solicitado
 # El local mas pedido
 # Barrio en donde mas solicitan
