@@ -22,7 +22,7 @@ print(df['name'].value_counts()[0:5],'\n')
 print('Top 5 barrios más solicitados')
 print(df['neighbourhood'].value_counts()[0:5],'\n')
 
-print('Top 5 barrios más solicitados')
+print('Solicitudes por barrio')
 print(df['neighbourhood'].value_counts(),'\n')
 
 print('Tipos de habitación solicitadas')
@@ -42,8 +42,23 @@ hc_nom = df1['name'].tolist()
 hc_pre = df1['price'].tolist()
 for i in range(len(hc_nom)):
     print('$', hc_pre[i], hc_nom[i])
-print('\n')
 
+print("\n --- Datos de la ciudad de Montréal ---")
+
+#print('\nSuma de reviews')
+#print(df["number_of_reviews"].sum())
+
+print('\nPromedio de reviews por mes')
+print(df["reviews_per_month"].mean(), 'reviews')
+
+print('\nPromedio de arriendos de locales por host')
+print(df["calculated_host_listings_count"].mean(), 'arriendos por cada host')
+
+print('\nPromedio de días disponibles de arriendos anual')
+print(df["availability_365"].mean(), 'días')
+
+print('\nGanancias totales')
+print('$', df["price"].sum(), 'dólares')
 
 
 # El host mas solicitado
@@ -59,6 +74,7 @@ print('\n')
 # Cantidad de dias disponibles en el año (los 3 mejores y peores)
 # Reviews por año
 # Cuales son las habitaciones que se reservan por un tiempo mas largo
+# Promedio de reviews por mes
 
 """
 calculated_host_listings_count: Es un recuento de listados que tiene un host específico
