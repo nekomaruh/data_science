@@ -14,6 +14,8 @@ df = df.drop(columns=['neighbourhood_group'])
 
 print('\nCantidad de datos:',len(df),'\n')
 
+print('\nCantidad de hosts:', len(df['host_id'].unique()))
+
 print('Top 5 hosts más solicitados:')
 print(df['host_name'].value_counts()[0:5],'\n')
 
@@ -46,8 +48,8 @@ for i in range(len(hc_nom)):
 
 print("\n --- Datos de la ciudad de Montréal ---")
 
-#print('\nSuma de reviews')
-#print(df["number_of_reviews"].sum())
+print('\nSuma de reviews')
+print(df["number_of_reviews"].sum())
 
 print('\nPromedio de reviews por mes')
 print(df["reviews_per_month"].mean(), 'reviews')
@@ -58,7 +60,7 @@ print(df["calculated_host_listings_count"].mean(), 'arriendos por cada host')
 print('\nPromedio de días disponibles de arriendos anual')
 print(df["availability_365"].mean(), 'días')
 
-print('\nGanancias totales')
+print('\nGanancias máximas por alojamiento al día')
 print('$', df["price"].sum(), 'dólares')
 
 
@@ -101,7 +103,7 @@ Precios como referencia
 def showBoxPlot(dataframe, price_range):
     df_bp = dataframe[["room_type", "price"]]
     if(price_range != -1):
-        df_bp = df_bp[df.price <= price_range]
+        df_bp = df_bp[dataframe.price <= price_range]
     boxp = df_bp.boxplot(column="price", by="room_type", grid = True, vert=False, showmeans=True)
 
     boxp.set_yticklabels(['%s\n$n$=%d'%(k, len(v)) for k, v in df_bp.groupby('room_type')])
@@ -115,7 +117,7 @@ def showBoxPlot(dataframe, price_range):
 showBoxPlot(df, -1)
 
 # Muestra los tados por rango de precio
-showBoxPlot(df, 2000)
-showBoxPlot(df, 1500)
+#showBoxPlot(df, 2000)
+#showBoxPlot(df, 1500)
 showBoxPlot(df, 400)
 
