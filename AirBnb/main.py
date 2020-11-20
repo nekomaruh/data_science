@@ -7,6 +7,7 @@ import re
 
 df = pd.read_csv("Montreal.csv", index_col=0, header=0)
 cant_datos = df['name'].count()
+print(cant_datos)
 
 # Eliminar las columnas que no se van a utilizar
 df = df.drop(columns=['neighbourhood_group'])
@@ -84,4 +85,37 @@ Entonces, si calcula_host_listings_count es 6, entonces
 puede ver que host_name tiene exactamente 6 filas en ese
 conjunto de datos.
 """
+
+"""
+Mínima cantidad de casas arrendadas por tipo
+Máxima cantidad de casas arrendadas por tipo
+
+Precios como referencia
+"""
+
+#def getPFRT(dataframe, room_type):
+#    df_r = dataframe.loc[dataframe['room_type'] == room_type]
+#    p = df_r["price"]
+#    return p.mean(), p.std(), p.count()
+
+def showBoxPlot(dataframe, price_range):
+    df_bp = dataframe[["room_type", "price"]]
+    if(price_range != -1):
+        df_bp = df_bp[df.price <= price_range]
+    boxp = df_bp.boxplot(column="price", by="room_type", grid = True, vert=False, showmeans=True)
+
+    boxp.set_yticklabels(['%s\n$n$=%d'%(k, len(v)) for k, v in df_bp.groupby('room_type')])
+    boxp.set_title(None)
+    boxp.set_xlabel('Precios')
+    boxp.set_ylabel('Tipo de habitaciones')
+    plt.subplots_adjust(left=0.2, bottom=0.2, right=0.9, top=0.8, wspace=None, hspace=None)
+    plt.show()
+
+# Muestra todos los datos
+showBoxPlot(df, -1)
+
+# Muestra los tados por rango de precio
+showBoxPlot(df, 2000)
+showBoxPlot(df, 1500)
+showBoxPlot(df, 400)
 
