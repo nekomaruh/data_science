@@ -28,6 +28,9 @@ print(df['neighbourhood'].value_counts()[0:5],'\n')
 print('Solicitudes por barrio')
 print(df['neighbourhood'].value_counts(),'\n')
 
+print('Cantidad de barrios')
+print(len(df['neighbourhood'].value_counts()),'\n')
+
 print('Tipos de habitación solicitadas')
 print(df['room_type'].value_counts(),'\n')
 
